@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Generator</title>
+</head>
+<body>
+    <h1>QR Code Generator</h1>
+    <input type="text" id="qrdata" placeholder="Enter text or URL">
+    <button onclick="generateQR()">Generate QR</button>
+    <br><br>
+    <img id="qrimage" src="" alt="QR Code will appear here">
+    <script>
+        async function generateQR() {
+            let data = document.getElementById("qrdata").value;
+            let response = await fetch("/generate", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({qrdata: data})
+            });
+            let blob = await response.blob();
+            document.getElementById("qrimage").src = URL.createObjectURL(blob);
+        }
+    </script>
+</body>
+</html>
